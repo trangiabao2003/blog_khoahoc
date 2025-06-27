@@ -1,0 +1,121 @@
+<form
+	name="container-form"
+	class="mt-4"
+	method="post"
+	action="/courses/handle-form-actions"
+>
+	<div class="">
+		<h3>Khóa học của tôi</h3>
+		<a href="/me/trash/courses">Thùng rác ({{deletedCount}})</a>
+
+		<div class="mt-4 d-flex align-items-center">
+			<div class="form-check">
+				<input
+					class="form-check-input"
+					type="checkbox"
+					value=""
+					id="checkbox-all"
+				/>
+				<label class="form-check-label" for="checkbox-all">
+					Chọn tất cả
+				</label>
+			</div>
+
+			<select
+				class="form-select form-control-sm checkbox-select-all-options"
+				name="action"
+			>
+				<option value="">-- Chọn hành động --</option>
+				<option value="delete">Xóa</option>
+			</select>
+
+			<button
+				class="btn btn-primary btn-sm check-all-submit-btn"
+				disabled="disable"
+			>Áp dụng</button>
+		</div>
+	</div>
+	<table class="table mt-4">
+		<thead>
+			<tr>
+				<th scope="col" colspan="2">#</th>
+				<th scope="col">
+					Tên khóa học
+					<a href="?_sort&column=name&type=desc">
+						<i class="fa-solid fa-sort"></i>
+					</a>
+				</th>
+				<th scope="col">Trình độ</th>
+				<th scope="col" colspan="2">Thời gian tạo</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each courses}}
+				<tr>
+					<td><div class="form-check">
+							<input
+								class="form-check-input"
+								type="checkbox"
+								name="courseIds[]"
+								value="{{this._id}}"
+							/>
+						</div></td>
+					<th scope="row">{{sum @index 1}}</th>
+					<td>{{this.name}}</td>
+					<td>{{this.level}}</td>
+					<td>{{this.createdAt}}</td>
+					<td>
+						<a href="/courses/{{this._id}}/edit" class="btn btn-link">Sửa</a>
+						<a
+							href=""
+							class="btn btn-link"
+							data-bs-toggle="modal"
+							data-bs-target="#delete-course-modal"
+							data-id="{{this._id}}"
+						>Xóa</a>
+					</td>
+				</tr>
+			{{else}}
+				<tr>
+					<td colspan="5" class="text-center">Bạn chưa đăng khóa học nào.
+						<a href="/courses/create">Đăng khóa học</a>
+					</td>
+				</tr>
+			{{/each}}
+		</tbody>
+	</table>
+</form>
+
+{{! confirm delete modal }}
+<div id="delete-course-modal" class="modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Xóa khóa học?</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="modal-body">
+				<p>Bạn chắc chắn muốn xóa khóa học này?</p>
+			</div>
+			<div class="modal-footer">
+				<button
+					type="button"
+					class="btn btn-secondary"
+					data-bs-dismiss="modal"
+				>Hủy</button>
+				<button id="btn-delete-course" type="button" class="btn btn-danger">Xóa
+					bỏ</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+{{! delete hidden form }}
+<form name="delete-course-form" method="post"></form>
+
+<script src="/js/stored-courses.js"></script>
