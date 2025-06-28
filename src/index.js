@@ -9,6 +9,8 @@ const port = 3000;
 const route = require("./routes");
 const db = require("./config/db");
 
+const SortMiddleware = require("./app/middlewares/sortMiddlewares");
+
 db.connect();
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -22,6 +24,8 @@ app.use(express.json());
 
 app.use(methodOverride("_method"));
 
+app.use(SortMiddleware);
+
 //HTTP logger
 // app.use(morgan("combined"));
 
@@ -30,9 +34,7 @@ app.engine(
 	"hbs",
 	engine({
 		extname: ".hbs",
-		helpers: {
-			sum: (a, b) => a + b,
-		},
+		helpers: require("./app/helpers/handlebars"),
 	})
 );
 app.set("view engine", "hbs");

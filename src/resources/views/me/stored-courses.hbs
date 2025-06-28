@@ -38,15 +38,25 @@
 	<table class="table mt-4">
 		<thead>
 			<tr>
-				<th scope="col" colspan="2">#</th>
+				<th scope="col">
+				</th>
+				<th scope="col">
+					ID
+					{{{sortable "_id" _sort}}}
+				</th>
 				<th scope="col">
 					Tên khóa học
-					<a href="?_sort&column=name&type=desc">
-						<i class="fa-solid fa-sort"></i>
-					</a>
+					{{{sortable "name" _sort}}}
 				</th>
-				<th scope="col">Trình độ</th>
-				<th scope="col" colspan="2">Thời gian tạo</th>
+				<th scope="col">
+					Trình độ
+					{{{sortable "level" _sort}}}
+
+				</th>
+				<th scope="col" colspan="2">
+					Thời gian tạo
+					{{{sortable "createdAt" _sort}}}
+				</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -60,7 +70,7 @@
 								value="{{this._id}}"
 							/>
 						</div></td>
-					<th scope="row">{{sum @index 1}}</th>
+					<th scope="row">{{this._id}}</th>
 					<td>{{this.name}}</td>
 					<td>{{this.level}}</td>
 					<td>{{this.createdAt}}</td>
